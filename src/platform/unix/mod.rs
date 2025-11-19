@@ -1111,7 +1111,7 @@ fn new_msghdr(iovec: &mut [iovec], cmsg_buffer: *mut cmsghdr, cmsg_space: MsgCon
 
 fn create_shmem(name: CString, length: usize) -> c_int {
     unsafe {
-        let fd = libc::memfd_create(name.as_ptr(), libc::MFD_CLOEXEC);
+        let fd = libc::syscall(libc::SYS_memfd_create, name.as_ptr(), libc::MFD_CLOEXEC).try_into().unwrap();
         assert!(fd >= 0);
         assert_eq!(libc::ftruncate(fd, length as off_t), 0);
         fd
