@@ -284,7 +284,7 @@ impl OsIpcReceiver {
                         .get()
                         .map(AsRef::as_ref)
                         .unwrap_or_else(|| "org.rust-lang.ipc-channel."),
-                    rand::rng().random::<i64>()
+                    rand::thread_rng().gen::<i64>()
                 );
                 let c_name = CString::new(name.clone()).unwrap();
                 os_result = bootstrap_register2(bootstrap_port, c_name.as_ptr(), right, 0);
